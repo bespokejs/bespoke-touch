@@ -1,5 +1,5 @@
 /*!
- * bespoke-touch v0.0.0
+ * bespoke-touch v0.1.0
  * https://github.com/markdalgleish/bespoke-touch
  *
  * Copyright 2013, Mark Dalgleish
