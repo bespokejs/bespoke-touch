@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/markdalgleish/bespoke-touch.png?branch=master)](https://travis-ci.org/markdalgleish/bespoke-touch)
+[![Build Status](https://secure.travis-ci.org/markdalgleish/bespoke-touch.png?branch=master)](https://travis-ci.org/markdalgleish/bespoke-touch) [![Coverage Status](https://coveralls.io/repos/markdalgleish/bespoke-touch/badge.png)](https://coveralls.io/r/markdalgleish/bespoke-touch)
 
 # bespoke-touch
 
@@ -13,14 +13,25 @@ Download the [production version][min] or the [development version][max], or use
 
 ## Usage
 
-First, include both `bespoke.js` and `bespoke-touch.js` in your page.
+This plugin is shipped in a [UMD format](https://github.com/umdjs/umd), meaning that it is available as a CommonJS/AMD module or browser global.
 
-Then, simply include the plugin when instantiating your presentation.
+For example, when using CommonJS modules:
 
 ```js
-bespoke.from('article', {
-  touch: true
-});
+var bespoke = require('bespoke'),
+  touch = require('touch');
+
+bespoke.from('article', [
+  touch()
+}];
+```
+
+When using browser globals:
+
+```js
+bespoke.from('article', [
+  bespoke.plugins.touch()
+}];
 ```
 
 By default, bespoke-touch uses horizontal swipes to navigate the slides.
@@ -28,18 +39,12 @@ By default, bespoke-touch uses horizontal swipes to navigate the slides.
 If your presentation is laid out vertically, you can allow navigation with vertical swipes using the `vertical` option:
 
 ```js
-bespoke.from('article', {
-  touch: 'vertical'
-});
+bespoke.from('article', [
+  touch('vertical')
+]);
 ```
 
 ## Package managers
-
-### Bower
-
-```bash
-$ bower install bespoke-touch
-```
 
 ### npm
 
@@ -47,11 +52,10 @@ $ bower install bespoke-touch
 $ npm install bespoke-touch
 ```
 
-The bespoke-touch npm package is designed for use with [browserify](http://browserify.org/), e.g.
+### Bower
 
-```js
-require('bespoke');
-require('bespoke-touch');
+```bash
+$ bower install bespoke-touch
 ```
 
 ## Credits

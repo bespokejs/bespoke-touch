@@ -1,6 +1,11 @@
 (function() {
   'use strict';
 
+  Function.prototype.bind = Function.prototype.bind || require('function-bind');
+
+  var bespoke = require('bespoke'),
+    touch = require('../../lib-instrumented/bespoke-touch.js');
+
   describe("bespoke-touch", function() {
 
     var deck,
@@ -13,9 +18,9 @@
           parent.appendChild(document.createElement('section'));
         }
 
-        deck = bespoke.from(parent, {
-          touch: optionValue
-        });
+        deck = bespoke.from(parent, [
+          touch(optionValue)
+        ]);
 
         INITIAL_SLIDE = 1;
         deck.slide(INITIAL_SLIDE);

@@ -4,9 +4,8 @@
   "bitwise": true,
   "camelcase": true,
   "curly": true,
-  "eqeqeq": true,
-  "immed": true,
-  "indent": 4,
+  "immed": false,
+  "indent": 2,
   "latedef": true,
   "newcap": true,
   "noarg": true,
@@ -14,8 +13,8 @@
   "regexp": true,
   "undef": true,
   "unused": true,
-  "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "white": true
+  "browser": true,
+  "node": true
 }

@@ -1,3 +1,3 @@
-bespoke.from('article', {
-  touch: true
-});
+bespoke.from('article', [
+  bespoke.plugins.touch()
+]);
