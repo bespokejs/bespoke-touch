@@ -49,22 +49,22 @@
 
           it("should go to the next slide when swiping left", function() {
             swipe('x', 51);
-            expect(deck.slides[INITIAL_SLIDE + 1].classList.contains('bespoke-active')).toBe(true);
+            expect(deck.slide()).toBe(INITIAL_SLIDE + 1);
           });
 
           it("shouldn't go to the next slide when swiping left less than the threshold", function() {
             swipe('x', 50);
-            expect(deck.slides[INITIAL_SLIDE].classList.contains('bespoke-active')).toBe(true);
+            expect(deck.slide()).toBe(INITIAL_SLIDE);
           });
 
           it("should go to the previous slide when swiping right", function() {
             swipe('x', -51);
-            expect(deck.slides[INITIAL_SLIDE - 1].classList.contains('bespoke-active')).toBe(true);
+            expect(deck.slide()).toBe(INITIAL_SLIDE - 1);
           });
 
           it("shouldn't go to the next slide when swiping right less than the threshold", function() {
             swipe('x', -50);
-            expect(deck.slides[INITIAL_SLIDE].classList.contains('bespoke-active')).toBe(true);
+            expect(deck.slide()).toBe(INITIAL_SLIDE);
           });
 
         });
@@ -79,22 +79,22 @@
 
       it("should go to the next slide when swiping up", function() {
         swipe('y', 51);
-        expect(deck.slides[INITIAL_SLIDE + 1].classList.contains('bespoke-active')).toBe(true);
+        expect(deck.slide()).toBe(INITIAL_SLIDE + 1);
       });
 
       it("shouldn't go to the next slide when swiping up less than the threshold", function() {
         swipe('y', 50);
-        expect(deck.slides[INITIAL_SLIDE].classList.contains('bespoke-active')).toBe(true);
+        expect(deck.slide()).toBe(INITIAL_SLIDE);
       });
 
       it("should go to the previous slide when swiping down", function() {
         swipe('y', -51);
-        expect(deck.slides[INITIAL_SLIDE - 1].classList.contains('bespoke-active')).toBe(true);
+        expect(deck.slide()).toBe(INITIAL_SLIDE - 1);
       });
 
       it("shouldn't go to the next slide when swiping down less than the threshold", function() {
         swipe('y', -50);
-        expect(deck.slides[INITIAL_SLIDE].classList.contains('bespoke-active')).toBe(true);
+        expect(deck.slide()).toBe(INITIAL_SLIDE);
       });
 
     });
