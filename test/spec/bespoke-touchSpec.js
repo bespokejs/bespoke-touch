@@ -1,104 +1,99 @@
-(function() {
-  'use strict';
+Function.prototype.bind = Function.prototype.bind || require('function-bind');
 
-  Function.prototype.bind = Function.prototype.bind || require('function-bind');
+var bespoke = require('bespoke'),
+  touch = require('../../lib-instrumented/bespoke-touch.js');
 
-  var bespoke = require('bespoke'),
-    touch = require('../../lib-instrumented/bespoke-touch.js');
+describe("bespoke-touch", function() {
 
-  describe("bespoke-touch", function() {
+  var deck,
 
-    var deck,
+    INITIAL_SLIDE,
 
-      INITIAL_SLIDE,
+    createDeck = function(optionValue) {
+      var parent = document.createElement('article');
+      for (var i = 0; i < 10; i++) {
+        parent.appendChild(document.createElement('section'));
+      }
 
-      createDeck = function(optionValue) {
-        var parent = document.createElement('article');
-        for (var i = 0; i < 10; i++) {
-          parent.appendChild(document.createElement('section'));
-        }
+      deck = bespoke.from(parent, [
+        touch(optionValue)
+      ]);
 
-        deck = bespoke.from(parent, [
-          touch(optionValue)
-        ]);
+      INITIAL_SLIDE = 1;
+      deck.slide(INITIAL_SLIDE);
+    },
 
-        INITIAL_SLIDE = 1;
-        deck.slide(INITIAL_SLIDE);
-      },
+    touchEvent = function(type, x, y) {
+      var e = document.createEvent('CustomEvent');
+      e.initEvent('touch' + type, true, true);
+      e.touches = [{ pageX: x, pageY: y }];
+      deck.parent.dispatchEvent(e);
+    },
 
-      touchEvent = function(type, x, y) {
-        var e = document.createEvent('CustomEvent');
-        e.initEvent('touch' + type, true, true);
-        e.touches = [{ pageX: x, pageY: y }];
-        deck.parent.dispatchEvent(e);
-      },
+    swipe = function(axis, amount) {
+      touchEvent('start', axis == 'x' ? amount : 0, axis == 'x' ? 0 : amount);
+      touchEvent('move', 0, 0);
+      touchEvent('end', 0, 0);
+    };
 
-      swipe = function(axis, amount) {
-        touchEvent('start', axis == 'x' ? amount : 0, axis == 'x' ? 0 : amount);
-        touchEvent('move', 0, 0);
-        touchEvent('end', 0, 0);
-      };
+  describe("horizontal deck", function() {
 
-    describe("horizontal deck", function() {
+    [true, 'horizontal'].forEach(function (optionValue) {
 
-      [true, 'horizontal'].forEach(function (optionValue) {
+      describe("with an option value of '" + optionValue + "'", function() {
 
-        describe("with an option value of '" + optionValue + "'", function() {
+        beforeEach(createDeck.bind(null, optionValue));
 
-          beforeEach(createDeck.bind(null, optionValue));
+        it("should go to the next slide when swiping left", function() {
+          swipe('x', 51);
+          expect(deck.slide()).toBe(INITIAL_SLIDE + 1);
+        });
 
-          it("should go to the next slide when swiping left", function() {
-            swipe('x', 51);
-            expect(deck.slide()).toBe(INITIAL_SLIDE + 1);
-          });
+        it("shouldn't go to the next slide when swiping left less than the threshold", function() {
+          swipe('x', 50);
+          expect(deck.slide()).toBe(INITIAL_SLIDE);
+        });
 
-          it("shouldn't go to the next slide when swiping left less than the threshold", function() {
-            swipe('x', 50);
-            expect(deck.slide()).toBe(INITIAL_SLIDE);
-          });
+        it("should go to the previous slide when swiping right", function() {
+          swipe('x', -51);
+          expect(deck.slide()).toBe(INITIAL_SLIDE - 1);
+        });
 
-          it("should go to the previous slide when swiping right", function() {
-            swipe('x', -51);
-            expect(deck.slide()).toBe(INITIAL_SLIDE - 1);
-          });
-
-          it("shouldn't go to the next slide when swiping right less than the threshold", function() {
-            swipe('x', -50);
-            expect(deck.slide()).toBe(INITIAL_SLIDE);
-          });
-
+        it("shouldn't go to the next slide when swiping right less than the threshold", function() {
+          swipe('x', -50);
+          expect(deck.slide()).toBe(INITIAL_SLIDE);
         });
 
       });
 
     });
 
-    describe("vertical deck", function() {
+  });
 
-      beforeEach(createDeck.bind(null, 'vertical'));
+  describe("vertical deck", function() {
 
-      it("should go to the next slide when swiping up", function() {
-        swipe('y', 51);
-        expect(deck.slide()).toBe(INITIAL_SLIDE + 1);
-      });
+    beforeEach(createDeck.bind(null, 'vertical'));
 
-      it("shouldn't go to the next slide when swiping up less than the threshold", function() {
-        swipe('y', 50);
-        expect(deck.slide()).toBe(INITIAL_SLIDE);
-      });
+    it("should go to the next slide when swiping up", function() {
+      swipe('y', 51);
+      expect(deck.slide()).toBe(INITIAL_SLIDE + 1);
+    });
 
-      it("should go to the previous slide when swiping down", function() {
-        swipe('y', -51);
-        expect(deck.slide()).toBe(INITIAL_SLIDE - 1);
-      });
+    it("shouldn't go to the next slide when swiping up less than the threshold", function() {
+      swipe('y', 50);
+      expect(deck.slide()).toBe(INITIAL_SLIDE);
+    });
 
-      it("shouldn't go to the next slide when swiping down less than the threshold", function() {
-        swipe('y', -50);
-        expect(deck.slide()).toBe(INITIAL_SLIDE);
-      });
+    it("should go to the previous slide when swiping down", function() {
+      swipe('y', -51);
+      expect(deck.slide()).toBe(INITIAL_SLIDE - 1);
+    });
 
+    it("shouldn't go to the next slide when swiping down less than the threshold", function() {
+      swipe('y', -50);
+      expect(deck.slide()).toBe(INITIAL_SLIDE);
     });
 
   });
 
-}());
+});
