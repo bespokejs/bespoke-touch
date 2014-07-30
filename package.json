@@ -1,6 +1,6 @@
 {
   "name": "bespoke-touch",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
   "description": "Touch Support for Bespoke.js",
   "homepage": "https://github.com/markdalgleish/bespoke-touch",
   "bugs": "https://github.com/markdalgleish/bespoke-touch/issues",
